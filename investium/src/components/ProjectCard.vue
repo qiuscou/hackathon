@@ -49,6 +49,7 @@ export default {
 <style scoped>
 .project-card {
   border: 0.1vh solid #e1e1e1;
+  padding: 1vh;
   border-radius: 0.8vh;
   overflow: hidden;
   transition: all 0.3s ease;

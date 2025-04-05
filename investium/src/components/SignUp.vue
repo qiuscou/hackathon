@@ -63,6 +63,7 @@ export default {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  padding: 20px;
 }
 
 .register-form {
@@ -70,10 +71,10 @@ export default {
   flex-direction: column;
   gap: 2.5vh;
   width: 100%;
-  max-width: 50vh;
-  padding: 5vh;
+  max-width: 400px;
+  padding: 30px;
   background: white;
-  border-radius: 2vh;
+  border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -98,27 +99,48 @@ label {
 }
 
 input {
-  padding: 1.5vh 2vh;
-  border: 0.1vh solid #ddd;
-  border-radius: 0.6vh;
-  font-size: 1.85vh;
-  font-family: 'Manrope Regular';
+  flex: 1;
+  padding: 1.8vh 2.5vh;
+  border: 0.2vh solid rgba(0, 0, 0, 0.1);
+  border-radius: 1vh;
+  font-size: 1.8vh;
+  background-color: rgba(0, 0, 0, 0.02);
+  color: #2c3e50;
   transition: all 0.3s ease;
+  outline: none;
+  min-width: 0;
+  font-family: 'Manrope Regular';
+}
+
+input::placeholder {
+  color: rgba(0, 0, 0, 0.4);
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+input:hover {
+  border-color: #3e1fff;
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
 input:focus {
   border-color: #3e1fff;
-  box-shadow: 0 0 0 0.2vh rgba(62, 31, 255, 0.2);
+  box-shadow: 0 0 1.5vh rgba(62, 31, 255, 0.3);
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+input:focus::placeholder {
+  opacity: 0.5;
 }
 
 .btn-primary {
   width: 100%;
-  padding: 1.5vh;
+  padding: 1.8vh;
   background-color: #3e1fff;
   color: white;
   border: none;
-  border-radius: 0.6vh;
-  font-size: 1.85vh;
+  border-radius: 1vh;
+  font-size: 1.8vh;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
