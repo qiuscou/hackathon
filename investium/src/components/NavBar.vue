@@ -10,7 +10,18 @@ export default {
         startups: 'Стартапы',
         how_it_works: 'Как это работает',
       },
+      isHomePage: this.$route.path === '/',
     }
+  },
+  watch: {
+    $route(to) {
+      this.isHomePage = to.path === '/'
+    },
+  },
+  methods: {
+    goToNewPage(page) {
+      this.$router.push({ name: page })
+    },
   },
 }
 </script>
@@ -32,8 +43,12 @@ export default {
         <button class="search-btn">
           <i class="fas fa-search"></i>
         </button>
-        <button class="btn btn-login">{{ navBarData.sign_in }}</button>
-        <button class="btn btn-primary">{{ navBarData.sign_up }}</button>
+        <button class="btn btn-login" @click="goToNewPage('SignIn')">
+          {{ navBarData.sign_in }}
+        </button>
+        <button class="btn btn-primary" @click="goToNewPage('SignUp')">
+          {{ navBarData.sign_up }}
+        </button>
       </div>
     </div>
   </header>
