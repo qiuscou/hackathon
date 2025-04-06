@@ -38,3 +38,9 @@ Vue 3 (Composition API)
 
 - Для сборки production-версии
   npm run build
+
+<-- Чат --> 
+- Папка chat - реализация чата между пользователями на Django
+
+<-- СУБД -->
+- PostgreSQL.
