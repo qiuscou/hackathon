@@ -11,6 +11,7 @@ export default {
   data() {
     return {
       aboutPageData: {
+        ourTeam: 'Наша команда',
         heroSection: {
           title: 'Мы создаем будущее',
           subtitle: 'Единая платформа, объединяющая инновации и инвестиции',
@@ -162,7 +163,7 @@ export default {
     </section>
 
     <section class="team-section">
-      <h2>Наша команда</h2>
+      <h2>{{ aboutPageData.ourTeam }}</h2>
       <div class="team-grid">
         <TeamCard
           v-for="member in aboutPageData.team"

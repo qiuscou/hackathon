@@ -15,13 +15,20 @@ export default {
       },
       email: '',
       password: '',
-      error: '',
+      error: null,
     }
   },
   methods: {
     ...mapActions(['login']),
     async handleSubmit() {
+      this.error = null
+
       try {
+        if (!this.email || !this.password) {
+          this.error = 'Пожалуйста, заполните все поля'
+          return
+        }
+
         const user = {
           name: 'Пользователь',
           email: this.email,
@@ -31,6 +38,7 @@ export default {
         this.$router.push('/')
       } catch (error) {
         this.error = 'Ошибка входа. Проверьте email и пароль'
+        console.error('Ошибка входа:', error)
       }
     },
     goToNewPage(page) {

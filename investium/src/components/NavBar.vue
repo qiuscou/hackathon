@@ -25,9 +25,6 @@ export default {
     goToNewPage(page) {
       this.$router.push({ name: page })
     },
-    handleAccount() {
-      this.$router.push('/account')
-    },
   },
 }
 </script>
@@ -64,7 +61,7 @@ export default {
             {{ user?.name || navBarData.account }}
           </button>
           <div class="dropdown-content">
-            <a @click="handleAccount">{{ navBarData.profile }}</a>
+            <a @click="goToNewPage('UserProfile')">{{ navBarData.profile }}</a>
             <a @click="logout">{{ navBarData.log_out }}</a>
           </div>
         </div>

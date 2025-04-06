@@ -5,6 +5,7 @@ import SignUp from './components/SignUp.vue'
 import DiscoveriesPage from './pages/DiscoveriesPage.vue'
 import StartupsPage from './pages/StartupsPage.vue'
 import AboutPage from './pages/AboutPage.vue'
+import UserProfile from './components/UserProfile.vue'
 
 const routes = [
   { path: '/', redirect: '/home' },
@@ -14,6 +15,7 @@ const routes = [
   { path: '/discoveries', name: 'DiscoveriesPage', component: DiscoveriesPage },
   { path: '/startups', name: 'StartupsPage', component: StartupsPage },
   { path: '/about', name: 'AboutPage', component: AboutPage },
+  { path: '/user_profile', name: 'UserProfile', component: UserProfile },
 ]
 
 const router = createRouter({
