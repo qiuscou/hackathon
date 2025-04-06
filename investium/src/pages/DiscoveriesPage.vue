@@ -14,9 +14,8 @@ export default {
     return {
       discoveriesPageData: {
         heroSection: {
-          title: 'Инвестируйте в',
-          highlightedWord: 'смелые',
-          subtitle: 'Открывайте для себя прорывные проекты, которые меняют будущее',
+          title: 'Инвестируйте в смелые идеи',
+          subtitle: 'Открывайте для себя прорывные проекты, которые меняют будущее страны',
           ctaButton: 'Начать исследовать',
         },
         trendingProjects: [],
@@ -59,16 +58,23 @@ export default {
           },
         ],
         sectionTitles: {
+          trending: 'Смелые идеи',
           categories: 'Перспективные направления',
         },
       },
       isLoading: true,
+      typedTitle: '',
+      typedSubtitle: '',
+      titleIndex: 0,
+      subtitleIndex: 0,
+      typingSpeed: 50,
     }
   },
   async created() {
     await this.loadProjectImages()
     await this.loadCategoryImages()
     this.isLoading = false
+    this.typeTitle()
   },
   methods: {
     async loadProjectImages() {
@@ -163,6 +169,30 @@ export default {
         )
       }
     },
+    typeTitle() {
+      if (this.titleIndex < this.discoveriesPageData.heroSection.title.length) {
+        this.typedTitle += this.discoveriesPageData.heroSection.title.charAt(this.titleIndex)
+        this.titleIndex++
+        setTimeout(this.typeTitle, this.typingSpeed)
+      } else {
+        this.typeSubtitle()
+      }
+    },
+    typeSubtitle() {
+      if (this.subtitleIndex < this.discoveriesPageData.heroSection.subtitle.length) {
+        this.typedSubtitle += this.discoveriesPageData.heroSection.subtitle.charAt(
+          this.subtitleIndex,
+        )
+        this.subtitleIndex++
+        setTimeout(this.typeSubtitle, this.typingSpeed)
+      }
+    },
+    scrollToTrending() {
+      const trendingSection = document.querySelector('.trending-section')
+      if (trendingSection) {
+        trendingSection.scrollIntoView({ behavior: 'smooth' })
+      }
+    },
   },
 }
 </script>
@@ -173,13 +203,12 @@ export default {
 
     <section class="hero">
       <div class="hero-content">
-        <h1>
-          {{ discoveriesPageData.heroSection.title }}
-          <span class="highlight">{{ discoveriesPageData.heroSection.highlightedWord }}</span> идеи
-        </h1>
-        <p class="subtitle">{{ discoveriesPageData.heroSection.subtitle }}</p>
-        <button class="cta-button">{{ discoveriesPageData.heroSection.ctaButton }}</button>
+        <h1 v-html="typedTitle"></h1>
+        <p class="subtitle">{{ typedSubtitle }}</p>
       </div>
+      <button class="cta-button" @click="scrollToTrending">
+        {{ discoveriesPageData.heroSection.ctaButton }}
+      </button>
       <div class="hero-gradient"></div>
     </section>
 
@@ -225,9 +254,10 @@ export default {
   height: 70vh;
   display: flex;
   align-items: center;
+  justify-content: start;
   padding: 0 10vw;
   overflow: hidden;
-  background: linear-gradient(135deg, #3e1fff 0%, #2a0de0 100%);
+  background: #3e1fff;
   color: #ffffff;
 }
 
@@ -235,14 +265,16 @@ export default {
   position: relative;
   z-index: 2;
   max-width: 60vw;
+  bottom: 10vh;
 }
 
 .hero h1 {
-  font-size: 7.5vh;
+  font-size: 10vh;
   font-weight: 700;
   line-height: 1.2;
-  margin-bottom: 2vh;
+  margin-bottom: -2.5vh;
   font-family: 'Manrope Bold', sans-serif;
+  min-height: 9vh;
 }
 
 .highlight {
@@ -254,10 +286,31 @@ export default {
   font-size: 3.5vh;
   opacity: 0.9;
   margin-bottom: 3vh;
+  margin-top: 7vh;
+  margin-left: 0.5vh;
   font-family: 'Manrope Medium', sans-serif;
+  min-height: 4vh;
+  animation: blink 1s step-end infinite;
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+}
+
+@keyframes blink {
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: white;
+  }
 }
 
 .cta-button {
+  position: absolute;
+  bottom: 12.5vh;
+  left: 35.5vh;
+  transform: translateX(-50%);
   background: #ffffff;
   color: #0f172a;
   border: none;
@@ -288,7 +341,7 @@ section {
 }
 
 h2 {
-  font-size: 3vh;
+  font-size: 5vh;
   margin-bottom: 4vh;
   text-align: center;
   color: #0f172a;

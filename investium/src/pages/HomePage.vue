@@ -46,7 +46,7 @@ export default {
         },
         {
           id: 3,
-          name: 'Промышленность',
+          name: 'Образование',
           image: null,
         },
       ],
@@ -72,7 +72,7 @@ export default {
   methods: {
     async loadProjectImages() {
       const projectQueries = [
-        { query: 'neurolink', index: 0 },
+        { query: 'neurotech', index: 0 },
         { query: 'quantum computing', index: 1 },
       ]
 
@@ -300,7 +300,7 @@ export default {
 
 .search-box input {
   flex: 1;
-  padding: 1.8vh 2.5vh;
+  padding: 1.35vh 2.5vh;
   border: 0.2vh solid rgba(255, 255, 255, 0.3);
   border-radius: 1vh 0 0 1vh;
   font-size: 1.8vh;

@@ -1,17 +1,3 @@
-<template>
-  <router-link :to="`/category/${id}`" class="category-card">
-    <div class="category-icon">
-      <span :class="icon" v-if="icon"></span>
-      <i class="fas fa-folder-open" v-else></i>
-    </div>
-    <div class="category-info">
-      <h3>{{ name }}</h3>
-      <p v-if="description">{{ description }}</p>
-      <p v-else-if="count">{{ formattedCount }}</p>
-    </div>
-  </router-link>
-</template>
-
 <script>
 export default {
   props: {
@@ -55,6 +41,20 @@ export default {
   },
 }
 </script>
+
+<template>
+  <router-link :to="`/category/${id}`" class="category-card">
+    <div class="category-icon">
+      <span :class="icon" v-if="icon"></span>
+      <i class="fas fa-folder-open" v-else></i>
+    </div>
+    <div class="category-info">
+      <h3>{{ name }}</h3>
+      <p v-if="description">{{ description }}</p>
+      <p v-else-if="count">{{ formattedCount }}</p>
+    </div>
+  </router-link>
+</template>
 
 <style scoped>
 .category-card {
