@@ -1,4 +1,6 @@
 <script>
+import { mapState, mapActions } from 'vuex'
+
 export default {
   data() {
     return {
@@ -6,21 +8,25 @@ export default {
         logo: 'Инвестиум',
         sign_in: 'Войти',
         sign_up: 'Зарегистрироваться',
+        account: 'Аккаунт',
         discoveries: 'Открытия',
         startups: 'Стартапы',
         how_it_works: 'Как это работает',
+        profile: 'Профиль',
+        log_out: 'Выйти',
       },
-      isHomePage: this.$route.path === '/',
     }
   },
-  watch: {
-    $route(to) {
-      this.isHomePage = to.path === '/'
-    },
+  computed: {
+    ...mapState(['isAuthenticated', 'user']),
   },
   methods: {
+    ...mapActions(['logout']),
     goToNewPage(page) {
       this.$router.push({ name: page })
+    },
+    handleAccount() {
+      this.$router.push('/account')
     },
   },
 }
@@ -43,12 +49,25 @@ export default {
         <button class="search-btn">
           <i class="fas fa-search"></i>
         </button>
-        <button class="btn btn-login" @click="goToNewPage('SignIn')">
-          {{ navBarData.sign_in }}
-        </button>
-        <button class="btn btn-primary" @click="goToNewPage('SignUp')">
-          {{ navBarData.sign_up }}
-        </button>
+
+        <template v-if="!isAuthenticated">
+          <button class="btn btn-login" @click="goToNewPage('SignIn')">
+            {{ navBarData.sign_in }}
+          </button>
+          <button class="btn btn-primary" @click="goToNewPage('SignUp')">
+            {{ navBarData.sign_up }}
+          </button>
+        </template>
+
+        <div v-else class="account-menu">
+          <button class="btn btn-login" @click="handleAccount">
+            {{ user?.name || navBarData.account }}
+          </button>
+          <div class="dropdown-content">
+            <a @click="handleAccount">{{ navBarData.profile }}</a>
+            <a @click="logout">{{ navBarData.log_out }}</a>
+          </div>
+        </div>
       </div>
     </div>
   </header>
@@ -146,5 +165,38 @@ export default {
 
 .search-btn:hover {
   color: #3e1fff;
+}
+
+.account-menu {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border-radius: 1vh;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  cursor: pointer;
+  font-size: 1.7vh;
+}
+
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
+}
+
+.account-menu:hover .dropdown-content {
+  display: block;
 }
 </style>

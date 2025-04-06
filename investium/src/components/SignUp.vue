@@ -1,4 +1,6 @@
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   data() {
     return {
@@ -16,11 +18,31 @@ export default {
       email: '',
       password: '',
       confirmPassword: '',
+      error: '',
     }
   },
   methods: {
-    handleSubmit() {
-      // Логика регистрации
+    ...mapActions(['login']),
+    async handleSubmit() {
+      if (this.password !== this.confirmPassword) {
+        this.error = 'Пароли не совпадают'
+        return
+      }
+
+      try {
+        const user = {
+          name: this.name,
+          email: this.email,
+        }
+
+        await this.login(user)
+        this.$router.push('/')
+      } catch (error) {
+        this.error = 'Ошибка регистрации: ' + error.message
+      }
+    },
+    goToNewPage(page) {
+      this.$router.push({ name: page })
     },
   },
 }
@@ -33,22 +55,25 @@ export default {
       <form @submit.prevent="handleSubmit">
         <div class="form-group">
           <label>{{ signUpData.name }}</label>
-          <input type="text" v-model="name" />
+          <input type="text" v-model="name" required />
         </div>
         <div class="form-group">
           <label>{{ signUpData.email }}</label>
-          <input type="email" v-model="email" />
+          <input type="email" v-model="email" required />
         </div>
         <div class="form-group">
           <label>{{ signUpData.password }}</label>
-          <input type="password" v-model="password" />
+          <input type="password" v-model="password" required />
         </div>
         <div class="form-group">
           <label>{{ signUpData.confirm_password }}</label>
-          <input type="password" v-model="confirmPassword" />
+          <input type="password" v-model="confirmPassword" required />
         </div>
-        <button type="submit" class="btn-primary">{{ signUpData.sign_up }}</button>
+        <button type="submit" class="btn-primary">
+          {{ signUpData.sign_up }}
+        </button>
       </form>
+      <div v-if="error" class="error-message">{{ error }}</div>
       <div class="auth-footer">
         <span>{{ signUpData.already_have_an_account }}</span>
         <router-link to="/sign_in">{{ signUpData.sign_in }}</router-link>
@@ -162,6 +187,14 @@ input:focus::placeholder {
   color: #3e1fff;
   text-decoration: none;
   font-weight: 500;
+  font-family: 'Manrope Medium';
+}
+
+.error-message {
+  color: #ff3e3e;
+  text-align: center;
+  font-size: 1.7vh;
+  margin-top: -1vh;
   font-family: 'Manrope Medium';
 }
 </style>

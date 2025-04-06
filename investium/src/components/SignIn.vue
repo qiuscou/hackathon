@@ -1,4 +1,6 @@
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   data() {
     return {
@@ -13,11 +15,26 @@ export default {
       },
       email: '',
       password: '',
+      error: '',
     }
   },
   methods: {
-    handleSubmit() {
-      // Логика входа
+    ...mapActions(['login']),
+    async handleSubmit() {
+      try {
+        const user = {
+          name: 'Пользователь',
+          email: this.email,
+        }
+
+        await this.login(user)
+        this.$router.push('/')
+      } catch (error) {
+        this.error = 'Ошибка входа. Проверьте email и пароль'
+      }
+    },
+    goToNewPage(page) {
+      this.$router.push({ name: page })
     },
   },
 }
@@ -30,14 +47,17 @@ export default {
       <form @submit.prevent="handleSubmit">
         <div class="form-group">
           <label>{{ signInData.email }}</label>
-          <input type="email" v-model="email" />
+          <input type="email" v-model="email" required />
         </div>
         <div class="form-group">
           <label>{{ signInData.password }}</label>
-          <input type="password" v-model="password" />
+          <input type="password" v-model="password" required />
         </div>
-        <button type="submit" class="btn-primary">{{ signInData.sign_in }}</button>
+        <button type="submit" class="btn-primary">
+          {{ signInData.sign_in }}
+        </button>
       </form>
+      <div v-if="error" class="error-message">{{ error }}</div>
       <div class="auth-footer">
         <span>{{ signInData.no_account }}</span>
         <router-link to="/sign_up">{{ signInData.sign_up }}</router-link>
@@ -159,5 +179,13 @@ input:focus::placeholder {
   font-weight: 500;
   font-family: 'Manrope Medium';
   transition: color 0.2s ease;
+}
+
+.error-message {
+  color: #ff3e3e;
+  text-align: center;
+  font-size: 1.7vh;
+  margin-top: -1vh;
+  font-family: 'Manrope Medium';
 }
 </style>
