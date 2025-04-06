@@ -1,35 +1,40 @@
-# investium
+<-- Описание -->
+Инвестиум - это платформа, соединяющая инвесторов с перспективными стартапами и инновационными проектами. Проект включает 12 основных компонентов, обеспечивающих полный цикл взаимодействия пользователей с системой.
 
-This template should help get you started developing with Vue 3 in Vite.
+<-- Структура -->
+src/
+├── components/
+│ ├── CategoryCard.vue # Карточка категории проектов
+│ ├── NavBar.vue # Навигационная панель
+│ ├── ProjectCard.vue # Карточка проекта
+│ ├── SignIn.vue # Форма входа
+│ ├── TeamCard.vue # Карточка участника команды
+│ └── UserProfile.vue # Профиль пользователя
+│
+├── pages/
+│ ├── AboutPage.vue # Страница "О платформе"
+│ ├── DiscoveriesPage.vue # Страница открытий
+│ ├── HomePage.vue # Главная страница
+│ └── StartupsPage.vue # Страница стартапов
+│
+└── App.vue # Главный компонент приложения
 
-## Recommended IDE Setup
+<-- Технологический стек -->
+Vue 3 (Composition API)
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- Vue Router
+- Vuex (управление состоянием)
+- SCSS (стилизация)
+- Axios (HTTP-запросы)
+- Font Awesome (иконки)
 
-## Customize configuration
+<-- Установка и запуск -->
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+- Установите зависимости
+  npm install
 
-## Project Setup
+- Запустите сервер разработки
+  npm run dev
 
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+- Для сборки production-версии
+  npm run build
