@@ -1,18 +1,13 @@
 <template>
-  <router-link
-    :to="`/category/${id}`"
-    class="category-card"
-    :style="{ 'background-color': bgColor }"
-  >
-    <div class="category-image">
-      <img :src="image" :alt="name" v-if="image" />
-      <div class="default-icon" v-else>
-        <i class="fas fa-folder-open"></i>
-      </div>
+  <router-link :to="`/category/${id}`" class="category-card">
+    <div class="category-icon">
+      <span :class="icon" v-if="icon"></span>
+      <i class="fas fa-folder-open" v-else></i>
     </div>
     <div class="category-info">
       <h3>{{ name }}</h3>
-      <p v-if="count">{{ formattedCount }}</p>
+      <p v-if="description">{{ description }}</p>
+      <p v-else-if="count">{{ formattedCount }}</p>
     </div>
   </router-link>
 </template>
@@ -28,17 +23,17 @@ export default {
       type: String,
       required: true,
     },
-    image: {
+    icon: {
+      type: String,
+      default: '',
+    },
+    description: {
       type: String,
       default: '',
     },
     count: {
       type: Number,
       default: 0,
-    },
-    bgColor: {
-      type: String,
-      default: '#f8f9fa',
     },
   },
   computed: {
@@ -63,67 +58,45 @@ export default {
 
 <style scoped>
 .category-card {
-  display: flex;
-  flex-direction: column;
-  border-radius: 1.2vh;
-  overflow: hidden;
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 1rem;
+  text-align: center;
+  transition: transform 0.3s ease;
+  box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.1);
+  border: 1px solid #f8fafc;
   text-decoration: none;
   color: inherit;
-  transition: all 0.3s ease;
-  box-shadow: 0 0.2vh 0.8vh rgba(0, 0, 0, 0.1);
-  height: 100%;
-  background: white;
+  display: block;
 }
 
 .category-card:hover {
-  transform: translateY(-0.5vh);
-  box-shadow: 0 0.6vh 1.2vh rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px);
 }
 
-.category-image {
-  height: 12vh;
+.category-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 1.5rem;
+  background: linear-gradient(135deg, #3e1fff 0%, #2a0de0 100%);
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
-  overflow: hidden;
-}
-
-.category-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s ease;
-}
-
-.category-card:hover .category-image img {
-  transform: scale(1.05);
-}
-
-.default-icon {
-  font-size: 4vh;
-  color: #05ce78;
-  opacity: 0.8;
-}
-
-.category-info {
-  padding: 1.6vh;
-  background: white;
-  flex-grow: 1;
+  color: #ffffff;
+  font-size: 2rem;
 }
 
 .category-info h3 {
-  margin: 0 0 0.8vh 0;
-  font-size: 1.8vh;
-  color: #2c3e50;
-  font-weight: 600;
-  line-height: 1.3;
+  font-size: 1.3rem;
+  margin-bottom: 0.8rem;
+  color: #0f172a;
 }
 
 .category-info p {
+  color: #0f172a;
+  opacity: 0.7;
+  font-size: 0.95rem;
   margin: 0;
-  font-size: 1.6vh;
-  color: #7f8c8d;
-  line-height: 1.4;
 }
 </style>

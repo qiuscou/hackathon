@@ -2,6 +2,7 @@
 import NavBar from '@/components/NavBar.vue'
 import ProjectCard from '@/components/ProjectCard.vue'
 import CategoryCard from '@/components/CategoryCard.vue'
+import unsplash from '@/unsplash'
 
 import bg1Video from '@/assets/videos/bg1.mp4'
 import bg2Video from '@/assets/videos/bg2.mp4'
@@ -22,6 +23,7 @@ export default {
       bg3Video,
       bg4Video,
       bg5Video,
+      searchQuery: '',
       homePageData: {
         findText: 'Поиск проектов, создателей и категорий',
         recommended_projects: 'Рекомендуемые проекты',
@@ -30,38 +32,22 @@ export default {
         sub_header: 'Зарабатывайте на российских прорывах',
         search: 'Поиск',
       },
-      featuredProjects: [
-        {
-          id: 1,
-          title: 'Умный дом нового поколения',
-          creator: 'SmartTech Inc.',
-          description: 'Инновационная система управления домом с ИИ',
-          progress: 75,
-          amount: 12500000,
-          backers: 342,
-        },
-        {
-          id: 2,
-          title: 'Экологичные аккумуляторы',
-          creator: 'EcoPower',
-          description: 'Батареи нового поколения с увеличенным сроком службы',
-          progress: 42,
-          amount: 8700000,
-          backers: 156,
-        },
-      ],
+      featuredProjects: [],
       categories: [
         {
           id: 1,
           name: 'IT-технологии',
+          image: null,
         },
         {
           id: 2,
           name: 'Биотехнологии',
+          image: null,
         },
         {
           id: 3,
           name: 'Промышленность',
+          image: null,
         },
       ],
       backgroundVideos: [
@@ -75,13 +61,56 @@ export default {
       videoInterval: null,
     }
   },
-  mounted() {
+  async mounted() {
     this.startVideoRotation()
+    await this.loadProjectImages()
+    await this.loadCategoryImages()
   },
   beforeUnmount() {
     this.stopVideoRotation()
   },
   methods: {
+    async loadProjectImages() {
+      const projectQueries = [
+        { query: 'neurolink', index: 0 },
+        { query: 'quantum computing', index: 1 },
+      ]
+
+      const tempProjects = Array(projectQueries.length).fill(null)
+
+      const promises = projectQueries.map(async ({ query, index }) => {
+        const photo = await unsplash.getRandomPhoto(query)
+        tempProjects[index] = {
+          id: index + 1,
+          title: index === 0 ? 'NeuroLink' : 'QuantumLeap',
+          description:
+            index === 0
+              ? 'Интерфейс мозг-компьютер нового поколения'
+              : 'Квантовый процессор для домашнего использования',
+          category: index === 0 ? 'Нейротехнологии' : 'Квантовые вычисления',
+          image: photo.url,
+          raised: index === 0 ? 1000000 : 2000000,
+          progress: index === 0 ? 50 : 60,
+          imageAlt: photo.alt,
+          imageAuthor: photo.author,
+          imageAuthorLink: photo.authorLink,
+        }
+      })
+      await Promise.all(promises)
+      this.featuredProjects = tempProjects
+    },
+
+    async loadCategoryImages() {
+      const photos = await unsplash.getPhotosForCategories(this.categories)
+      this.categories = this.categories.map((category, index) => ({
+        ...category,
+        image: photos[index].url,
+        imageAlt: photos[index].alt,
+        imageAuthor: photos[index].author,
+        imageAuthorLink: photos[index].authorLink,
+      }))
+    },
+
     startVideoRotation() {
       this.videoInterval = setInterval(() => {
         this.backgroundVideos[this.currentVideoIndex].active = false
@@ -89,13 +118,15 @@ export default {
         this.backgroundVideos[this.currentVideoIndex].active = true
       }, 8000)
     },
+
     stopVideoRotation() {
       if (this.videoInterval) {
         clearInterval(this.videoInterval)
       }
     },
+
     searchProjects() {
-      console.log('Поиск проектов')
+      console.log('Поиск проектов:', this.searchQuery)
     },
   },
 }
@@ -138,7 +169,16 @@ export default {
       <div class="container">
         <h2>{{ homePageData.recommended_projects }}</h2>
         <div class="projects-grid">
-          <ProjectCard v-for="project in featuredProjects" :key="project.id" v-bind="project" />
+          <ProjectCard
+            v-for="project in featuredProjects"
+            :key="project.id"
+            :title="project.title"
+            :description="project.description"
+            :image="project.image"
+            :category="project.category"
+            :progress="project.progress"
+            :amount="project.raised"
+          />
         </div>
       </div>
     </section>

@@ -52,7 +52,6 @@ export default {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  padding: 20px;
   background-color: #f5f7fa;
 }
 
@@ -160,9 +159,5 @@ input:focus::placeholder {
   font-weight: 500;
   font-family: 'Manrope Medium';
   transition: color 0.2s ease;
-}
-
-.auth-footer a:hover {
-  color: #2a0de0;
 }
 </style>

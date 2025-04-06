@@ -63,7 +63,6 @@ export default {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  padding: 20px;
 }
 
 .register-form {
@@ -71,10 +70,10 @@ export default {
   flex-direction: column;
   gap: 2.5vh;
   width: 100%;
-  max-width: 400px;
-  padding: 30px;
+  max-width: 50vh;
+  padding: 5vh;
   background: white;
-  border-radius: 10px;
+  border-radius: 2vh;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -90,7 +89,7 @@ h2 {
   display: flex;
   flex-direction: column;
   gap: 0.8vh;
-  margin-bottom: 1.5vh;
+  margin-bottom: 2vh;
 }
 
 label {
@@ -103,7 +102,7 @@ input {
   padding: 1.8vh 2.5vh;
   border: 0.2vh solid rgba(0, 0, 0, 0.1);
   border-radius: 1vh;
-  font-size: 1.8vh;
+  font-size: 1.85vh;
   background-color: rgba(0, 0, 0, 0.02);
   color: #2c3e50;
   transition: all 0.3s ease;
@@ -163,5 +162,6 @@ input:focus::placeholder {
   color: #3e1fff;
   text-decoration: none;
   font-weight: 500;
+  font-family: 'Manrope Medium';
 }
 </style>

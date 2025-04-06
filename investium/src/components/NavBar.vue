@@ -34,8 +34,8 @@ export default {
       </router-link>
 
       <nav class="main-nav">
-        <router-link to="/discover">{{ navBarData.discoveries }}</router-link>
-        <router-link to="/start">{{ navBarData.startups }}</router-link>
+        <router-link to="/discoveries">{{ navBarData.discoveries }}</router-link>
+        <router-link to="/startups">{{ navBarData.startups }}</router-link>
         <router-link to="/about">{{ navBarData.how_it_works }}</router-link>
       </nav>
 

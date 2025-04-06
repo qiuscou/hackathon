@@ -1,18 +1,17 @@
 <template>
   <div class="project-card">
-    <div class="project-image">
-      <img :src="image" :alt="title" />
+    <div class="project-image" :style="{ backgroundImage: `url(${image})` }">
+      <span class="project-tag" v-if="category">{{ category }}</span>
     </div>
-    <div class="project-content">
+    <div class="project-info">
       <h3>{{ title }}</h3>
-      <p class="creator">{{ creator }}</p>
-      <p class="description">{{ description }}</p>
-      <div class="progress-bar">
-        <div class="progress" :style="{ width: progress + '%' }"></div>
+      <p>{{ description }}</p>
+      <div class="project-stats">
+        <span>{{ formattedAmount }}₽</span>
+        <span>{{ progress }}% собрано</span>
       </div>
-      <div class="stats">
-        <span class="amount">{{ formattedAmount }} ₽</span>
-        <span class="backers">{{ backers }} {{ backersText }}</span>
+      <div class="progress-bar">
+        <div class="progress" :style="{ width: `${progress}%` }"></div>
       </div>
     </div>
   </div>
@@ -21,26 +20,34 @@
 <script>
 export default {
   props: {
-    title: String,
-    creator: String,
-    description: String,
-    image: String,
-    progress: Number,
-    amount: Number,
-    backers: Number,
+    title: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    image: {
+      type: String,
+      required: true,
+    },
+    category: {
+      type: String,
+      default: '',
+    },
+    progress: {
+      type: Number,
+      required: true,
+    },
+    amount: {
+      type: Number,
+      required: true,
+    },
   },
   computed: {
     formattedAmount() {
-      return new Intl.NumberFormat('ru-RU').format(this.amount)
-    },
-    backersText() {
-      const cases = [2, 0, 1, 1, 1, 2]
-      const titles = ['инвестор', 'инвестора', 'инвесторов']
-      return titles[
-        this.backers % 100 > 4 && this.backers % 100 < 20
-          ? 2
-          : cases[Math.min(this.backers % 10, 5)]
-      ]
+      return this.amount.toLocaleString()
     },
   },
 }
@@ -48,93 +55,75 @@ export default {
 
 <style scoped>
 .project-card {
-  border: 0.1vh solid #e1e1e1;
-  padding: 1vh;
-  border-radius: 0.8vh;
+  background: #ffffff;
+  border-radius: 1rem;
   overflow: hidden;
-  transition: all 0.3s ease;
-  background: white;
-  box-shadow: 0 0.2vh 0.6vh rgba(0, 0, 0, 0.05);
+  box-shadow: 0 10px 15px -3px rgba(15, 23, 42, 0.1);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+  border: 1px solid #f8fafc;
   height: 100%;
 }
 
 .project-card:hover {
-  transform: translateY(-0.5vh);
-  box-shadow: 0 0.8vh 1.6vh rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px);
+  box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.1);
 }
 
 .project-image {
-  overflow: hidden;
+  height: 200px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
 }
 
-.project-image img {
-  width: 100%;
-  height: 18vh;
-  object-fit: cover;
-  transition: transform 0.3s ease;
+.project-tag {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(15, 23, 42, 0.7);
+  color: #ffffff;
+  padding: 0.3rem 0.8rem;
+  border-radius: 50px;
+  font-size: 0.8rem;
 }
 
-.project-card:hover .project-image img {
-  transform: scale(1.03);
+.project-info {
+  padding: 1.5rem;
 }
 
-.project-content {
-  padding: 1.5vh;
+.project-info h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #0f172a;
 }
 
-.project-content h3 {
-  margin: 0 0 0.5vh 0;
-  font-size: 2.2vh;
+.project-info p {
+  color: #0f172a;
+  opacity: 0.7;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+}
+
+.project-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
   font-weight: 600;
-  color: #222;
-  line-height: 1.3;
-}
-
-.creator {
-  color: #666;
-  font-size: 1.85vh;
-  margin: 0 0 1vh 0;
-  line-height: 1.4;
-}
-
-.description {
-  font-size: 1.85vh;
-  color: #333;
-  margin: 0 0 1.5vh 0;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  line-height: 1.5;
+  color: #0f172a;
 }
 
 .progress-bar {
-  height: 0.5vh;
-  background: #f0f0f0;
-  border-radius: 0.3vh;
-  margin-bottom: 1vh;
+  height: 6px;
+  background: #f8fafc;
+  border-radius: 3px;
   overflow: hidden;
 }
 
 .progress {
   height: 100%;
-  background: #3e1fff;
-  border-radius: 0.3vh;
-  transition: width 0.6s ease;
-}
-
-.stats {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 1.85vh;
-}
-
-.amount {
-  font-weight: bold;
-  color: #3e1fff;
-}
-
-.backers {
-  color: #666;
+  background: linear-gradient(90deg, #3e1fff, #2a0de0);
+  border-radius: 3px;
 }
 </style>
